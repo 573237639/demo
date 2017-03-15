@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.sys.entity.SysRoleAct">
+	
+	   <delete id="deleteByRoleId" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from sys_role_act where
+		        role_id = #{roleId} 
+	    ]]>
+	    </delete>      
+	   
+	   <delete id="delByActIds" parameterType="list">
+		delete from sys_role_act where act_id in 
+		<foreach collection="list" open="(" close=")" separator="," item="actId">
+			#{actId}
+		</foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbQcBase">
+	<resultMap id="TbQcBaseResult" type="com.fabao.ledger.modules.tb.entity.TbQcBase">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbQcBaseColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_qcbase_serial as vacQcbaseSerial,
+	        	vac_law_id as vacLawId,
+	        	vac_lawyer_name as vacLawyerName,
+	        	date_qcbase_consult as dateQcbaseConsult,
+	        	num_qcbase_score as numQcbaseScore,
+	        	num_qcbase_check_bit as numQcbaseCheckBit,
+	        	num_qcbase_check_state as numQcbaseCheckState,
+	        	vac_qcbase_summary as vacQcbaseSummary,
+	        	vac_qcbase_improve as vacQcbaseImprove,
+	        	vac_qcbase_comment as vacQcbaseComment,
+	        	vac_qcbase_memo as vacQcbaseMemo,
+	        	vac_qcbase_name as vacQcbaseName,
+	        	date_qcbase_time as dateQcbaseTime,
+	        	is_deleted as isDeleted,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbQcBase" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_qc_base (
+	        	vac_qcbase_serial ,
+	        	vac_law_id ,
+	        	vac_lawyer_name ,
+	        	date_qcbase_consult ,
+	        	num_qcbase_score ,
+	        	num_qcbase_check_bit ,
+	        	num_qcbase_check_state ,
+	        	vac_qcbase_summary ,
+	        	vac_qcbase_improve ,
+	        	vac_qcbase_comment ,
+	        	vac_qcbase_memo ,
+	        	vac_qcbase_name ,
+	        	date_qcbase_time ,
+	        	is_deleted ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified 
+	        ) VALUES (
+	        	#{vacQcbaseSerial,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLawId,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLawyerName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{dateQcbaseConsult,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{numQcbaseScore,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numQcbaseCheckBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numQcbaseCheckState,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacQcbaseSummary,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacQcbaseImprove,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacQcbaseComment,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacQcbaseMemo,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacQcbaseName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{dateQcbaseTime,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbQcBase">
+	    <![CDATA[
+	        UPDATE tb_qc_base SET
+		        vac_qcbase_serial = #{vacQcbaseSerial,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_law_id = #{vacLawId,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_lawyer_name = #{vacLawyerName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        date_qcbase_consult = #{dateQcbaseConsult,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        num_qcbase_score = #{numQcbaseScore,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_qcbase_check_bit = #{numQcbaseCheckBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_qcbase_check_state = #{numQcbaseCheckState,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_qcbase_summary = #{vacQcbaseSummary,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_qcbase_improve = #{vacQcbaseImprove,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_qcbase_comment = #{vacQcbaseComment,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_qcbase_memo = #{vacQcbaseMemo,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_qcbase_name = #{vacQcbaseName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        date_qcbase_time = #{dateQcbaseTime,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_qc_base where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbQcBaseResult" flushCache="false">
+			select <include refid="tbQcBaseColumns" />
+		    <![CDATA[
+			    from tb_qc_base 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbQcBaseResult" flushCache="false">
+			select <include refid="tbQcBaseColumns" />
+			    from tb_qc_base 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbQcBaseDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcbaseSerial)">
+				and vac_qcbase_serial = #{vacQcbaseSerial}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLawId)">
+				and vac_law_id = #{vacLawId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLawyerName)">
+				and vac_lawyer_name = #{vacLawyerName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(dateQcbaseConsult)">
+				and date_qcbase_consult = #{dateQcbaseConsult}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcbaseScore)">
+				and num_qcbase_score = #{numQcbaseScore}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcbaseCheckBit)">
+				and num_qcbase_check_bit = #{numQcbaseCheckBit}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcbaseCheckState)">
+				and num_qcbase_check_state = #{numQcbaseCheckState}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcbaseSummary)">
+				and vac_qcbase_summary = #{vacQcbaseSummary}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcbaseImprove)">
+				and vac_qcbase_improve = #{vacQcbaseImprove}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcbaseComment)">
+				and vac_qcbase_comment = #{vacQcbaseComment}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcbaseMemo)">
+				and vac_qcbase_memo = #{vacQcbaseMemo}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcbaseName)">
+				and vac_qcbase_name = #{vacQcbaseName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(dateQcbaseTime)">
+				and date_qcbase_time = #{dateQcbaseTime}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbQcBaseResult"  flushCache="false">
+    	select <include refid="tbQcBaseColumns" />
+	    from tb_qc_base 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_qc_base 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_qc_base 
+		<include refid="tbQcBaseDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbQcBaseResult">
+    	select <include refid="tbQcBaseColumns" />
+	    from tb_qc_base 
+		<include refid="tbQcBaseDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	<update id="disableBat" parameterType="String">
+		<![CDATA[
+		UPDATE cms_organization SET
+		 is_deleted = 1
+		WHERE 
+		 id in (${_parameter})
+		]]>
+</update>
+</mapper>

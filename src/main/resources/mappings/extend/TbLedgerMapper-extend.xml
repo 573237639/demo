@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbLedger">
+
+
+    <select id="getByPageAndEntity" resultMap="TbLedgerAndClientResult" statementType="STATEMENT">
+    	select  <include refid="tbLedgerAndClientsColumns" />
+    	  from  tb_ledger l left join tb_clients c on c.id = l.num_client_id
+		<include refid="tbLedgerAndClientsWhere"/>
+				<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY l.${sortColumns}
+		</if>
+    </select>
+    
+        <select id="getCountByPageAndEntity" resultType="int">
+        select count(*) from tb_ledger l left join tb_clients c on c.id = l.num_client_id
+		<include refid="tbLedgerAndClientsWhere"/>    
+    </select>
+    
+    	<update id="disableBat" parameterType="String">
+		    <![CDATA[
+		        UPDATE tb_ledger SET
+			        is_deleted = 1
+		        WHERE 
+			        id in (${_parameter})
+		    ]]>
+		</update>
+        	<update id="enableBat" parameterType="String">
+		    <![CDATA[
+		        UPDATE tb_ledger SET
+			        is_deleted = 0
+		        WHERE 
+			        id in (${_parameter})
+		    ]]>
+		</update>
+    
+    
+    	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbLedgerAndClientsColumns">
+	    <![CDATA[
+	        		l.id as id,
+	        		l.vac_ledger_talk_dur as vacLedgerTalkDur,
+	        	l.vac_ledger_serial as vacLedgerSerial,
+	        	l.vac_ledger_number as vacLedgerNumber,
+	        	l.num_ledger_province_id as numLedgerProvinceId,
+	        	l.num_ledger_city_id as numLedgerCityId,
+	        	l.vac_ledger_province_name as vacLedgerProvinceName,
+	        	l.vac_ledger_city_name as vacLedgerCityName,
+	        	l.num_ledger_call_queue as numLedgerCallQueue,
+	        	l.vac_ledger_agent_code as vacLedgerAgentCode,
+	        	l.vac_ledger_agent_name as vacLedgerAgentName,
+	        	l.vac_ledger_business_type as vacLedgerBusinessType,
+	        	l.vac_ledger_client_account as vacLedgerClientAccount,
+	        	l.vac_ledger_lawyer_suggestion as vacLedgerLawyerSuggestion,
+	        	l.num_ledger_handle as numLedgerHandle,
+	        	l.num_client_id as numClientId,
+	        	l.num_ledger_incident_porvince_id as numLedgerIncidentPorvinceId,
+	        	l.num_ledger_incident_city_id as numLedgerIncidentCityId,
+	        	l.vac_ledger_incident_address as vacLedgerIncidentAddress,
+	        	l.creator as creator,
+	        	l.modifier as modifier,
+	        	l.gmt_created as gmtCreated,
+	        	l.gmt_modified as gmtModified,
+	        	l.is_deleted as isDeleted,
+	        	l.num_ledger_status as numLedgerStatus,
+	        	l.num_ledger_operator_id as numLedgerOperatorId,
+	        	l.vac_ledger_operator_name as vacLedgerOperatorName     
+	    ]]>
+	</sql>
+	
+	
+		<sql id="tbClientsDiyColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_client_name as vacClientName,
+	        	num_client_gender as numClientGender,
+	        	num_client_type as numClientType,
+	        	num_client_province_id as numClientProvinceId,
+	        	num_client_city_id as numClientCityId,
+	        	vac_client_number as vacClientNumber,
+	        	vac_client_identity_code as vacClientIdentityCode,
+	        	vac_client_passport_code as vacClientPassportCode,
+	        	vac_client_military_code as vacClientMilitaryCode,
+	        	vac_client_address as vacClientAddress,
+	        	vac_client_memo as vacClientMemo,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted,
+	        	vac_client_eep_code as vacClientEepCode
+	    ]]>
+	</sql>
+    
+     <resultMap type="com.fabao.ledger.modules.tb.entity.TbLedger" id="TbLedgerAndClientResult">                                                                 
+         <id property="id" column="id"/>     
+         <association property="tbClients" column="numClientId" select="getTbClients"/>                                                                                     
+      </resultMap>     
+      
+      <select id="getTbClients" parameterType="int" resultType="com.fabao.ledger.modules.tb.entity.TbClients">
+         SELECT <include refid="tbClientsDiyColumns" />  FROM tb_clients  WHERE id=#{id}
+      </select>
+    
+		<sql id="tbLedgerAndClientsWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+	       		<if test="isDeleted == false">
+	       		and l.is_deleted = 0
+	       		</if>
+	       		<if test="isDeleted == true">
+	       		and l.is_deleted = 1
+	       		</if>
+			</if>
+			 <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerStatus)">
+				and l.num_ledger_status = ${numLedgerStatus}
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and l.creator = ${creator}
+			</if>
+<!-- 来电号码 -->
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerNumber)">
+				and l.vac_ledger_number = '${vacLedgerNumber}'
+			</if>
+			<if test="tbClients != null and tbClients !=''">
+				<!-- 客户名称 -->
+				<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.vacClientName)">
+					and c.vac_client_name like '%${tbClients.vacClientName}%'
+				</if>
+				<!-- 证件类型 -->
+		       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.zjType) and @com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.zjCode) ">
+					and c.${tbClients.zjType} = '${tbClients.zjCode}'
+				</if>
+				<!-- 咨询人类别 -->		
+		       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.numClientType)">
+					and c.num_client_type = ${tbClients.numClientType}
+				</if>
+				<!-- 性别 -->	
+		       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.numClientGender)">
+					and c.num_client_gender = ${tbClients.numClientGender}
+				</if>
+			</if>
+<!-- 话务员姓名 -->	
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerAgentName)">
+				and l.vac_ledger_agent_name = '${vacLedgerAgentName}'
+			</if>
+<!-- 话务员工号 -->	
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerAgentCode)">
+				and l.vac_ledger_agent_code = '${vacLedgerAgentCode}'
+			</if>
+<!-- 处理情况 -->	
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerHandle)">
+				and l.num_ledger_handle = ${numLedgerHandle}
+			</if>
+<!-- 来电队列 -->	
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerCallQueue)">
+				and l.num_ledger_call_queue like '%${numLedgerCallQueue}%'
+			</if>
+<!-- 来电归属 -->	
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerProvinceId)">
+				and l.num_ledger_province_id = ${numLedgerProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerCityId)">
+				and l.num_ledger_city_id = ${numLedgerCityId}
+			</if>
+<!-- 业务类型 -->	
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerBusinessType)">
+				and l.vac_ledger_business_type in (${vacLedgerBusinessType})
+			</if>
+<!-- 是否有工单 -->	
+		     <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isOrder) and isOrder == 1">
+				and exists (select 1 from tb_orders o where l.vac_ledger_serial= o.vac_order_serial)
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isOrder) and isOrder == 0">
+				and not exists (select 1 from tb_orders o where l.vac_ledger_serial= o.vac_order_serial)
+			</if>
+			
+<!-- 来电时间 -->			
+		    <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(callTimeStart)">
+		    	and l.gmt_created  <![CDATA[>=]]> '${callTimeStart}'
+		    </if>
+		    <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(callTimeEnd)">
+		    	and l.gmt_created <![CDATA[<=]]> '${callTimeEnd}'
+		    </if>
+		</where>
+	</sql>
+
+
+</mapper>

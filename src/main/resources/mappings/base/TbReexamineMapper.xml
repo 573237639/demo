@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbReexamine">
+	<resultMap id="TbReexamineResult" type="com.fabao.ledger.modules.tb.entity.TbReexamine">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbReexamineColumns">
+	    <![CDATA[
+	        	id as id,
+	        	num_reexamine_sourceid as numReexamineSourceid,
+	        	num_reexamine_taskstate as numReexamineTaskstate,
+	        	date_complete_time as dateCompleteTime,
+	        	vac_reexamine_opinion as vacReexamineOpinion,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted,
+	        	date_order_audit as dateOrderAudit,
+	        	vac_order_title as vacOrderTitle,
+	        	vac_reexamine_name as vacReexamineName,
+	        	vac_reexamine_number as vacReexamineNumber
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbReexamine" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_reexamine (
+	        	num_reexamine_sourceid ,
+	        	num_reexamine_taskstate ,
+	        	date_complete_time ,
+	        	vac_reexamine_opinion ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	is_deleted ,
+	        	date_order_audit ,
+	        	vac_order_title ,
+	        	vac_reexamine_name ,
+	        	vac_reexamine_number
+	        ) VALUES (
+	        	#{numReexamineSourceid,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numReexamineTaskstate,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{dateCompleteTime,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{vacReexamineOpinion,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{dateOrderAudit,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{vacOrderTitle,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacReexamineName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacReexamineNumber,javaType=java.lang.String,jdbcType=VARCHAR} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbReexamine">
+	    <![CDATA[
+	        UPDATE tb_reexamine SET
+		        num_reexamine_sourceid = #{numReexamineSourceid,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_reexamine_taskstate = #{numReexamineTaskstate,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        date_complete_time = #{dateCompleteTime,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        vac_reexamine_opinion = #{vacReexamineOpinion,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        date_order_audit = #{dateOrderAudit,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        vac_order_title = #{vacOrderTitle,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_reexamine_name = #{vacReexamineName,javaType=java.lang.String,jdbcType=VARCHAR},
+		        vac_reexamine_number = #{vacReexamineNumber,javaType=java.lang.String,jdbcType=VARCHAR}
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_reexamine where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbReexamineResult" flushCache="false">
+			select <include refid="tbReexamineColumns" />
+		    <![CDATA[
+			    from tb_reexamine 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbReexamineResult" flushCache="false">
+			select <include refid="tbReexamineColumns" />
+			    from tb_reexamine 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbReexamineDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numReexamineSourceid)">
+				and num_reexamine_sourceid = #{numReexamineSourceid}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numReexamineTaskstate)">
+				and num_reexamine_taskstate = #{numReexamineTaskstate}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(dateCompleteTime)">
+				and date_complete_time = #{dateCompleteTime}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacReexamineOpinion)">
+				and vac_reexamine_opinion = #{vacReexamineOpinion}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(dateOrderAudit)">
+				and date_order_audit = #{dateOrderAudit}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderTitle)">
+				and vac_order_title = #{vacOrderTitle}
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacReexamineName)">
+				and vac_reexamine_name like '%${vacReexamineName}%'
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacReexamineNumber)">
+				and vac_reexamine_number = #{vacReexamineNumber}
+			</if>
+			<!-- 工单初审时间 -->			
+		    <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(trialTimeStart)">
+		    	and date_order_audit  <![CDATA[>=]]> '${trialTimeStart}'
+		    </if>
+		    <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(trialTimeEnd)">
+		    	and date_order_audit <![CDATA[<=]]> '${trialTimeEnd}'
+		    </if>
+			
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbReexamineResult"  flushCache="false">
+    	select <include refid="tbReexamineColumns" />
+	    from tb_reexamine 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_reexamine 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_reexamine 
+		<include refid="tbReexamineDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbReexamineResult">
+    	select <include refid="tbReexamineColumns" />
+	    from tb_reexamine 
+		<include refid="tbReexamineDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.sys.entity.SysAct">
+
+	<select id="getCommonActionList" parameterType="list" resultType="string">
+		select a.act_name from sys_act a join sys_role_menu m on a.menu_id = m.menu_id 
+		where a.type=1 
+		<foreach collection="list" item="va" open=" and (" close=")" separator="or">
+		m.role_id=#{va}
+		</foreach>
+	</select>
+	
+	<select id="getAuthorActionList" parameterType="list" resultType="string">
+		select a.act_name from sys_act a join sys_role_act r on a.id=r.act_id
+		where a.type=2 
+		<foreach collection="list" item="va" open=" and (" close=")" separator="or">
+		r.role_id=#{va}
+		</foreach>
+	</select>
+	
+	<select id="getAllActsByType" parameterType="java.lang.Integer" resultMap="SysActResult">
+		select <include refid="sysActColumns" /> from sys_act where type=#{value}
+	</select>
+	<select id="getCommonActsByRoleIds" parameterType="list" resultMap="SysActResult">
+		select 
+		<![CDATA[
+	        	a.id as id,
+	        	a.act_name as actName,
+	        	a.target as target,
+	        	a.type as type,
+	        	a.menu_id as menuId,
+	        	a.remarks as remarks,
+	        	a.creator as creator,
+	        	a.modifier as modifier,
+	        	a.gmt_created as gmtCreated,
+	        	a.gmt_modified as gmtModified,
+	        	a.is_deleted as isDeleted
+	    ]]>
+		from sys_act a join sys_role_act r on a.id=r.act_id
+		where a.type=2 
+		<foreach collection="list" item="va" open=" and (" close=")" separator="or">
+		r.role_id=#{va}
+		</foreach>
+	</select>
+	
+	<delete id="delActByMenuId" parameterType="int">
+		<![CDATA[
+			DELETE FROM  sys_act WHERE menu_id=#{menuId}
+		]]>
+	</delete>
+	
+	<select id="findBymenuId" resultMap="SysActResult" parameterType="int">
+		select <include refid="sysActColumns" /> from sys_act where menu_id=${value}
+	</select>
+</mapper>

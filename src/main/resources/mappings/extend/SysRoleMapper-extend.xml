@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.sys.entity.SysRole">
+	
+    <select id="getRolesByUid" parameterType="long" resultMap="SysRoleResult">
+    	SELECT <include refid="sysRoleColumns" /> FROM sys_role 
+	    WHERE id IN  (SELECT role_id FROM sys_user_role WHERE user_id=#{id}) 
+    </select>
+    
+     <select id="validRolelist" resultType="map">
+    	SELECT id,name as text,0 parent FROM sys_role 
+	    WHERE is_deleted = 0 
+    </select>
+    <select id="selectRoleByName" resultMap="SysRoleResult">
+    	SELECT <include refid="sysRoleColumns" /> FROM sys_role 
+	    WHERE 1=1
+	    <if test="value!=null and value!=''">
+	    	and name =#{name}
+	    </if>
+    </select>
+</mapper>

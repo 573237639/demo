@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbCall">
+	<resultMap id="TbCallResult" type="com.fabao.ledger.modules.tb.entity.TbCall">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="searchCall">
+	    <![CDATA[
+	        	id as id
+	    ]]>
+	</sql>
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbCallResult" flushCache="false">
+			select <include refid="searchCall" />
+		    <![CDATA[
+			    from tb_call 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbCallResult" flushCache="false">
+			select <include refid="searchCall" />
+			    from tb_call 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+		
+		<select id="getBySerials" parameterType="String"  resultMap="TbCallResult" flushCache="false">
+			select <include refid="searchCall" />
+			    from tb_call 
+		        where id in (${_parameter})			
+		</select>
+		
+		
+	<sql id="tbCallDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbCallResult"  flushCache="false">
+    	select <include refid="searchCall" />
+	    from tb_call 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_call 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_call 
+		<include refid="tbCallDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbCallResult">
+    	select <include refid="searchCall" />
+	    from tb_call 
+		<include refid="tbCallDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+</mapper>

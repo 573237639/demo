@@ -1,0 +1,123 @@
+.bs-example{
+    color: #959595;
+    font-size: 12px;
+    font-weight: 700;
+    padding-left:10px;
+    letter-spacing: 1px;
+    /* position: absolute;
+    text-transform: uppercase; */
+    padding-top: 15px;
+}
+/* .bs-example::after {
+    content: "分类：" !important;
+} */
+
+/* .bs-example {
+    background-color: #fff;
+    border-color: #ddd;
+    border-radius: 4px 4px 0 0;
+    border-width: 1px;
+    box-shadow: none;
+    margin-left: 0;
+    margin-right: 0;
+} */
+
+/* .bs-example {
+    border-color: #e5e5e5 #eee #eee;
+    border-style: solid;
+    border-width: 1px 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05) inset;
+    margin: 0 -15px 15px;
+    padding: 30px 65px 15px;
+    position: relative;
+} */
+
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+    width:100%;
+}
+.nav {
+    list-style: outside none none;
+    margin-bottom: 0;
+    padding-left: 0;
+    content: " ";
+    display: table;
+}
+
+ol, ul {
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+* {
+    box-sizing: border-box;
+}
+
+.nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+}
+.nav > li {
+    display: block;
+    position: relative;
+}
+
+.nav > li > a {
+    display: block;
+    padding: 8px 15px;
+    position: relative;
+    text-decoration: none;
+    border-radius: 4px 4px 0 0;
+    line-height: 1.42857;
+    margin-right: 2px;
+    color:#337ab7;
+}
+
+.nav > li > a:hover{
+	color:#23527c;
+}
+
+.nav > li:hover{
+	background: #EEEEEE;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #fff;
+    border-color: #ddd #ddd transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #555;
+    cursor: default;
+}
+
+.nav > li:first-child {
+    margin-left: 10px;
+}
+
+.context {
+    height:325px;
+    
+}
+
+.float_left{
+		float:left;
+		width:300px;
+}
+.clear{clear:both;}
+
+#content_text textarea{
+	width:400px;
+	height:130px;
+    overflow-y:scroll;
+}
+
+.font_htm{
+	width:50px;
+	font-size:10px;
+	text-align:left;
+	color:green;
+}

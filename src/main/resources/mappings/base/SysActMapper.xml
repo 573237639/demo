@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.sys.entity.SysAct">
+	<resultMap id="SysActResult" type="com.fabao.ledger.modules.sys.entity.SysAct">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="sysActColumns">
+	    <![CDATA[
+	        	id as id,
+	        	act_name as actName,
+	        	target as target,
+	        	type as type,
+	        	menu_id as menuId,
+	        	remarks as remarks,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.sys.entity.SysAct" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        sys_act (
+	        	act_name ,
+	        	target ,
+	        	type ,
+	        	menu_id ,
+	        	remarks ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	is_deleted 
+	        ) VALUES (
+	        	#{actName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{target,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{type,javaType=Integer,jdbcType=SMALLINT} ,
+	        	#{menuId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{remarks,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.sys.entity.SysAct">
+	    <![CDATA[
+	        UPDATE sys_act SET
+		        act_name = #{actName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        target = #{target,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        type = #{type,javaType=Integer,jdbcType=SMALLINT} ,
+		        menu_id = #{menuId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        remarks = #{remarks,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from sys_act where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="SysActResult" flushCache="false">
+			select <include refid="sysActColumns" />
+		    <![CDATA[
+			    from sys_act 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="SysActResult" flushCache="false">
+			select <include refid="sysActColumns" />
+			    from sys_act 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="sysActDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(actName)">
+				and act_name = #{actName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(target)">
+				and target = #{target}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(type)">
+				and type = #{type}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(menuId)">
+				and menu_id = #{menuId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(remarks)">
+				and remarks = #{remarks}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="SysActResult"  flushCache="false">
+    	select <include refid="sysActColumns" />
+	    from sys_act 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from sys_act 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from sys_act 
+		<include refid="sysActDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="SysActResult">
+    	select <include refid="sysActColumns" />
+	    from sys_act 
+		<include refid="sysActDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>

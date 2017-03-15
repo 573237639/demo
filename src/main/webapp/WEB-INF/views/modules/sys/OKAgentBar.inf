@@ -1,0 +1,21 @@
+[version] 
+; version signature (same for both NT and Win95) do not remove
+signature="$CHICAGO$"
+AdvancedINF=2.0  
+
+[Add.Code]
+OKAgentBar.ocx=OKAgentBar.ocx
+OKClient.dll=OKClient.dll
+  
+[OKAgentBar.ocx]   
+file-win32-x86=thiscab   
+clsid={5220C3B8-3F25-4F78-B982-08A71C569363}     
+FileVersion=1,0,0,68
+RegisterServer=yes 
+
+[OKClient.dll]   
+file-win32-x86=thiscab   
+clsid={DFA372BF-C6B3-4DE5-8A1A-100F0650787F}     
+FileVersion=1,0,0,19
+RegisterServer=yes 
+;

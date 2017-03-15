@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbQcInfo">
+	<resultMap id="TbQcInfoResult" type="com.fabao.ledger.modules.tb.entity.TbQcInfo">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbQcInfoColumns">
+	    <![CDATA[
+	        	id as id,
+	        	num_qc_base_id as numQcBaseId,
+	        	num_pro_id as numProId,
+	        	num_qcinfo_score as numQcinfoScore,
+	        	num_qcpro_bit as numQcproBit,
+	        	is_deleted as isDeleted,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbQcInfo" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_qc_info (
+	        	num_qc_base_id ,
+	        	num_pro_id ,
+	        	num_qcinfo_score ,
+	        	num_qcpro_bit ,
+	        	is_deleted ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified 
+	        ) VALUES (
+	        	#{numQcBaseId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numProId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numQcinfoScore,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numQcproBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbQcInfo">
+	    <![CDATA[
+	        UPDATE tb_qc_info SET
+		        num_qc_base_id = #{numQcBaseId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_pro_id = #{numProId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_qcinfo_score = #{numQcinfoScore,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_qcpro_bit = #{numQcproBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_qc_info where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbQcInfoResult" flushCache="false">
+			select <include refid="tbQcInfoColumns" />
+		    <![CDATA[
+			    from tb_qc_info 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbQcInfoResult" flushCache="false">
+			select <include refid="tbQcInfoColumns" />
+			    from tb_qc_info 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbQcInfoDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcBaseId)">
+				and num_qc_base_id = #{numQcBaseId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numProId)">
+				and num_pro_id = #{numProId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcinfoScore)">
+				and num_qcinfo_score = #{numQcinfoScore}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcproBit)">
+				and num_qcpro_bit = #{numQcproBit}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbQcInfoResult"  flushCache="false">
+    	select <include refid="tbQcInfoColumns" />
+	    from tb_qc_info 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_qc_info 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_qc_info 
+		<include refid="tbQcInfoDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbQcInfoResult">
+    	select <include refid="tbQcInfoColumns" />
+	    from tb_qc_info 
+		<include refid="tbQcInfoDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>

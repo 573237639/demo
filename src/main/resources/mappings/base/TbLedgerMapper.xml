@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbLedger">
+	<resultMap id="TbLedgerResult" type="com.fabao.ledger.modules.tb.entity.TbLedger">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbLedgerColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_ledger_talk_dur as vacLedgerTalkDur,
+	        	vac_ledger_serial as vacLedgerSerial,
+	        	vac_ledger_number as vacLedgerNumber,
+	        	num_ledger_province_id as numLedgerProvinceId,
+	        	num_ledger_city_id as numLedgerCityId,
+	        	vac_ledger_province_name as vacLedgerProvinceName,
+	        	vac_ledger_city_name as vacLedgerCityName,
+	        	num_ledger_call_queue as numLedgerCallQueue,
+	        	vac_ledger_agent_code as vacLedgerAgentCode,
+	        	vac_ledger_agent_name as vacLedgerAgentName,
+	        	vac_ledger_business_type as vacLedgerBusinessType,
+	        	vac_ledger_client_account as vacLedgerClientAccount,
+	        	vac_ledger_lawyer_suggestion as vacLedgerLawyerSuggestion,
+	        	num_ledger_handle as numLedgerHandle,
+	        	num_client_id as numClientId,
+	        	num_ledger_incident_porvince_id as numLedgerIncidentPorvinceId,
+	        	num_ledger_incident_city_id as numLedgerIncidentCityId,
+	        	vac_ledger_incident_address as vacLedgerIncidentAddress,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted,
+	        	num_ledger_status as numLedgerStatus,
+	        	num_ledger_operator_id as numLedgerOperatorId,
+	        	vac_ledger_operator_name as vacLedgerOperatorName,
+	        	num_specialty_id as numSpecialtyId
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbLedger" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_ledger (
+	        	vac_ledger_talk_dur ,
+	        	vac_ledger_serial ,
+	        	vac_ledger_number ,
+	        	num_ledger_province_id ,
+	        	num_ledger_city_id ,
+	        	vac_ledger_province_name ,
+	        	vac_ledger_city_name ,
+	        	num_ledger_call_queue ,
+	        	vac_ledger_agent_code ,
+	        	vac_ledger_agent_name ,
+	        	vac_ledger_business_type ,
+	        	vac_ledger_client_account ,
+	        	vac_ledger_lawyer_suggestion ,
+	        	num_ledger_handle ,
+	        	num_client_id ,
+	        	num_ledger_incident_porvince_id ,
+	        	num_ledger_incident_city_id ,
+	        	vac_ledger_incident_address ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	is_deleted ,
+	        	num_ledger_status ,
+	        	num_ledger_operator_id ,
+	        	vac_ledger_operator_name ,
+	        	num_specialty_id 
+	        ) VALUES (
+	        	#{vacLedgerTalkDur,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerSerial,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerNumber,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numLedgerProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numLedgerCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacLedgerProvinceName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerCityName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numLedgerCallQueue,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerAgentCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerAgentName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerBusinessType,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerClientAccount,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacLedgerLawyerSuggestion,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numLedgerHandle,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numClientId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numLedgerIncidentPorvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numLedgerIncidentCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacLedgerIncidentAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{numLedgerStatus,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numLedgerOperatorId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacLedgerOperatorName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numSpecialtyId,javaType=java.lang.Integer,jdbcType=INTEGER} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbLedger">
+	    <![CDATA[
+	        UPDATE tb_ledger SET
+		        vac_ledger_talk_dur = #{vacLedgerTalkDur,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_serial = #{vacLedgerSerial,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_number = #{vacLedgerNumber,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_ledger_province_id = #{numLedgerProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_ledger_city_id = #{numLedgerCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_ledger_province_name = #{vacLedgerProvinceName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_city_name = #{vacLedgerCityName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_ledger_call_queue = #{numLedgerCallQueue,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_agent_code = #{vacLedgerAgentCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_agent_name = #{vacLedgerAgentName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_business_type = #{vacLedgerBusinessType,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_client_account = #{vacLedgerClientAccount,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_ledger_lawyer_suggestion = #{vacLedgerLawyerSuggestion,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_ledger_handle = #{numLedgerHandle,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_client_id = #{numClientId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_ledger_incident_porvince_id = #{numLedgerIncidentPorvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_ledger_incident_city_id = #{numLedgerIncidentCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_ledger_incident_address = #{vacLedgerIncidentAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        num_ledger_status = #{numLedgerStatus,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_ledger_operator_id = #{numLedgerOperatorId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_ledger_operator_name = #{vacLedgerOperatorName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_specialty_id = #{numSpecialtyId,javaType=java.lang.Integer,jdbcType=INTEGER} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_ledger where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbLedgerResult" flushCache="false">
+			select <include refid="tbLedgerColumns" />
+		    <![CDATA[
+			    from tb_ledger 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbLedgerResult" flushCache="false">
+			select <include refid="tbLedgerColumns" />
+			    from tb_ledger 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbLedgerDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerTalkDur)">
+				and vac_ledger_talk_dur = #{vacLedgerTalkDur}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerSerial)">
+				and vac_ledger_serial = #{vacLedgerSerial}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerNumber)">
+				and vac_ledger_number = #{vacLedgerNumber}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerProvinceId)">
+				and num_ledger_province_id = #{numLedgerProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerCityId)">
+				and num_ledger_city_id = #{numLedgerCityId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerProvinceName)">
+				and vac_ledger_province_name = #{vacLedgerProvinceName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerCityName)">
+				and vac_ledger_city_name = #{vacLedgerCityName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerCallQueue)">
+				and num_ledger_call_queue = #{numLedgerCallQueue}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerAgentCode)">
+				and vac_ledger_agent_code = #{vacLedgerAgentCode}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerAgentName)">
+				and vac_ledger_agent_name = #{vacLedgerAgentName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerBusinessType)">
+				and vac_ledger_business_type = #{vacLedgerBusinessType}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerClientAccount)">
+				and vac_ledger_client_account = #{vacLedgerClientAccount}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerLawyerSuggestion)">
+				and vac_ledger_lawyer_suggestion = #{vacLedgerLawyerSuggestion}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerHandle)">
+				and num_ledger_handle = #{numLedgerHandle}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientId)">
+				and num_client_id = #{numClientId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerIncidentPorvinceId)">
+				and num_ledger_incident_porvince_id = #{numLedgerIncidentPorvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerIncidentCityId)">
+				and num_ledger_incident_city_id = #{numLedgerIncidentCityId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerIncidentAddress)">
+				and vac_ledger_incident_address = #{vacLedgerIncidentAddress}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerStatus)">
+				and num_ledger_status = #{numLedgerStatus}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerOperatorId)">
+				and num_ledger_operator_id = #{numLedgerOperatorId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacLedgerOperatorName)">
+				and vac_ledger_operator_name = #{vacLedgerOperatorName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numSpecialtyId)">
+				and num_specialty_id = #{numSpecialtyId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbLedgerResult"  flushCache="false">
+    	select <include refid="tbLedgerColumns" />
+	    from tb_ledger 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_ledger 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_ledger 
+		<include refid="tbLedgerDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbLedgerResult">
+    	select <include refid="tbLedgerColumns" />
+	    from tb_ledger 
+		<include refid="tbLedgerDynamicWhere"/>  ORDER BY id DESC
+    </select>
+
+	
+</mapper>

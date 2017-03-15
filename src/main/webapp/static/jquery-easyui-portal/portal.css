@@ -1,0 +1,104 @@
+.portal{
+	padding:0;
+	margin:0;
+	border:1px solid #99BBE8;
+	overflow:auto;
+}
+.portal-noborder{
+	border:0;
+}
+.portal-panel{
+	margin-bottom:10px;
+}
+.portal-column-td{
+	vertical-align:top;
+}	
+.portal-column{
+	padding:10px 0 10px 10px;
+	overflow:hidden;
+}
+.portal-column-left{
+	padding-left:10px;
+}
+.portal-column-right{
+	padding-right:10px;
+}
+.portal-proxy{
+	opacity:0.6;
+	filter:alpha(opacity=60);
+}
+.portal-spacer{
+	border:3px dashed #eee;
+	margin-bottom:10px;
+}
+
+
+
+/* 以下是自定义的页面样式 */
+
+/* 居左 20px */
+.div_margin_left{
+	margin-left: 20px;
+	text-align: left;
+}
+/* 标红 */
+.div_color_red{
+	color: red;
+}
+/* 标题 */
+.span_title{
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.a_button{
+	width:100px;
+	height:32px;
+	color: #5890ff;
+}
+
+.textbox_title_1{
+	color: red;
+	margin-top:6px;
+	margin-right:4px;
+	vertical-align: sub;
+	display:inline;  
+	vertical-align: top;
+}
+
+.textbox_title_2{
+	margin-right: 5px;
+	margin-top: 4px;
+	display:inline;  
+	vertical-align: top;
+}
+
+
+.redio_span{
+	margin-left: 12px;
+}
+
+.redio_input{
+	vertical-align: sub;
+}
+
+.textbox_input{
+	height:26px;
+	border:1px solid #ccc;
+}
+
+.combobox_input{
+	width:100px;
+	height:26px;
+}
+.ke-container-default{
+	    display: inline-block !important;
+}
+
+
+/* 分割线 */
+.demo_line_02{height: 1px;border-top: 1px solid #ddd;text-align: left;}
+.demo_line_02 span{position: relative;top: -8px;background: #fff;padding: 0 20px;}
+
+
+

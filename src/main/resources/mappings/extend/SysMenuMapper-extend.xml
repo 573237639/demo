@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.sys.entity.SysMenu">
+	<select id="getMaxSeq" parameterType="int" resultType="int">
+		select max(sort) from sys_menu where parent_id=#{value}
+	</select>
+	
+	<select id="getNeibMenu" resultMap="SysMenuResult">
+		select <include refid="sysMenuColumns" /> from sys_menu where parent_id=#{parentId} and sort =
+		(select ${fun}(sort) from sys_menu where parent_id=${parentId}
+		and sort ${symbol} #{sortOrder})
+	</select>
+	
+	<select id="getMenusByPid" resultMap="SysMenuResult">
+		select <include refid="sysMenuColumns" /> from sys_menu where parent_id=#{parentId} order by sort asc
+	</select>
+	
+	<select id="getMenusByType" resultMap="SysMenuResult">
+		select <include refid="sysMenuColumns" /> from sys_menu where menu_type=#{type}
+	</select>	
+	
+	<select id="getMenus" resultMap="SysMenuResult">
+		select <include refid="sysMenuColumns" />
+		    <![CDATA[
+			    from sys_menu 
+		    ]]>
+		<where>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(menu.id)">
+				and id = #{menu.id}
+			</if>
+			 <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(menu.parentId)">
+				and parent_id = #{menu.parentId}
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(roleList)">
+				and EXISTS(select id from sys_role_menu where sys_role_menu.menu_id=sys_menu.id and 
+					<foreach collection="roleList" item="role" open=" (" close=")" separator=" or " >
+						sys_role_menu.role_id=#{role.id}
+					</foreach>
+				)
+			</if>
+		</where>
+		order by sort
+	</select>
+	
+	<select id="getMenuListByRoleList" parameterType="list" resultMap="SysMenuResult">
+		select <include refid="sysMenuColumns" />
+		    <![CDATA[
+			    from sys_menu 
+		    ]]>
+		<where>
+				1=1
+				and EXISTS(select id from sys_role_menu where sys_role_menu.menu_id=sys_menu.id and 
+					<foreach collection="list" item="roleId" open=" (" close=")" separator=" or " >
+						sys_role_menu.role_id=#{roleId}
+					</foreach>
+				)
+		</where>
+	</select>
+	
+</mapper>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbOrders">
+	<resultMap id="TbOrdersResult" type="com.fabao.ledger.modules.tb.entity.TbOrders">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbOrdersColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_order_serial as vacOrderSerial,
+	        	vac_order_number as vacOrderNumber,
+	        	vac_order_agent_code as vacOrderAgentCode,
+	        	vac_order_agent_name as vacOrderAgentName,
+	        	vac_order_business_type as vacOrderBusinessType,
+	        	vac_order_other_contacts as vacOrderOtherContacts,
+	        	vac_order_title as vacOrderTitle,
+	        	vac_order_type as vacOrderType,
+	        	date_order_term as dateOrderTerm,
+	        	vac_order_lawyer_name as vacOrderLawyerName,
+	        	vac_order_create_reason as vacOrderCreateReason,
+	        	vac_order_task_type as vacOrderTaskType,
+	        	vac_order_account as vacOrderAccount,
+	        	vac_order_suggestion as vacOrderSuggestion,
+	        	num_order_incident_province_id as numOrderIncidentProvinceId,
+	        	num_order_incident_city_id as numOrderIncidentCityId,
+	        	vac_order_incident_address as vacOrderIncidentAddress,
+	        	num_order_contact_province_id as numOrderContactProvinceId,
+	        	num_order_contact_city_id as numOrderContactCityId,
+	        	vac_order_contact_address as vacOrderContactAddress,
+	        	num_order_receive_province_id as numOrderReceiveProvinceId,
+	        	num_order_receive_city_id as numOrderReceiveCityId,
+	        	num_client_id as numClientId,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted,
+	        	num_order_status as numOrderStatus,
+	        	num_order_user_id as numOrderUserId,
+	        	num_allot_user_id as numAllotUserId,
+	        	vac_allot_user_name as vacAllotUserName,
+	        	date_allot_time as dateAllotTime
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbOrders" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_orders (
+	        	vac_order_serial ,
+	        	vac_order_number ,
+	        	vac_order_agent_code ,
+	        	vac_order_agent_name ,
+	        	vac_order_business_type ,
+	        	vac_order_other_contacts ,
+	        	vac_order_title ,
+	        	vac_order_type ,
+	        	date_order_term ,
+	        	vac_order_lawyer_name ,
+	        	vac_order_create_reason ,
+	        	vac_order_task_type ,
+	        	vac_order_account ,
+	        	vac_order_suggestion ,
+	        	num_order_incident_province_id ,
+	        	num_order_incident_city_id ,
+	        	vac_order_incident_address ,
+	        	num_order_contact_province_id ,
+	        	num_order_contact_city_id ,
+	        	vac_order_contact_address ,
+	        	num_order_receive_province_id ,
+	        	num_order_receive_city_id ,
+	        	num_client_id ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	is_deleted ,
+	        	num_order_status ,
+	        	num_order_user_id ,
+	        	num_allot_user_id ,
+	        	vac_allot_user_name ,
+	        	date_allot_time 
+	        ) VALUES (
+	        	#{vacOrderSerial,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderNumber,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderAgentCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderAgentName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderBusinessType,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderOtherContacts,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderTitle,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderType,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{dateOrderTerm,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{vacOrderLawyerName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderCreateReason,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderTaskType,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacOrderAccount,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacOrderSuggestion,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numOrderIncidentProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numOrderIncidentCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacOrderIncidentAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numOrderContactProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numOrderContactCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacOrderContactAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numOrderReceiveProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numOrderReceiveCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numClientId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{numOrderStatus,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numOrderUserId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numAllotUserId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacAllotUserName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{dateAllotTime,javaType=java.util.Date,jdbcType=TIMESTAMP} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbOrders">
+	    <![CDATA[
+	        UPDATE tb_orders SET
+		        vac_order_serial = #{vacOrderSerial,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_number = #{vacOrderNumber,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_agent_code = #{vacOrderAgentCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_agent_name = #{vacOrderAgentName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_business_type = #{vacOrderBusinessType,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_other_contacts = #{vacOrderOtherContacts,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_title = #{vacOrderTitle,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_type = #{vacOrderType,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        date_order_term = #{dateOrderTerm,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        vac_order_lawyer_name = #{vacOrderLawyerName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_create_reason = #{vacOrderCreateReason,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_task_type = #{vacOrderTaskType,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_order_account = #{vacOrderAccount,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_order_suggestion = #{vacOrderSuggestion,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_order_incident_province_id = #{numOrderIncidentProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_order_incident_city_id = #{numOrderIncidentCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_order_incident_address = #{vacOrderIncidentAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_order_contact_province_id = #{numOrderContactProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_order_contact_city_id = #{numOrderContactCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_order_contact_address = #{vacOrderContactAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_order_receive_province_id = #{numOrderReceiveProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_order_receive_city_id = #{numOrderReceiveCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_client_id = #{numClientId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        num_order_status = #{numOrderStatus,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_order_user_id = #{numOrderUserId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_allot_user_id = #{numAllotUserId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_allot_user_name = #{vacAllotUserName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        date_allot_time = #{dateAllotTime,javaType=java.util.Date,jdbcType=TIMESTAMP} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_orders where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbOrdersResult" flushCache="false">
+			select <include refid="tbOrdersColumns" />
+		    <![CDATA[
+			    from tb_orders 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbOrdersResult" flushCache="false">
+			select <include refid="tbOrdersColumns" />
+			    from tb_orders 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbOrdersDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderSerial)">
+				and vac_order_serial = #{vacOrderSerial}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderNumber)">
+				and vac_order_number = #{vacOrderNumber}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderAgentCode)">
+				and vac_order_agent_code = #{vacOrderAgentCode}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderAgentName)">
+				and vac_order_agent_name = #{vacOrderAgentName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderBusinessType)">
+				and vac_order_business_type in (#{vacOrderBusinessType})
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderOtherContacts)">
+				and vac_order_other_contacts = #{vacOrderOtherContacts}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderTitle)">
+				and vac_order_title = #{vacOrderTitle}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderType)">
+				and vac_order_type = #{vacOrderType}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(dateOrderTerm)">
+				and date_order_term = #{dateOrderTerm}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderLawyerName)">
+				and vac_order_lawyer_name = #{vacOrderLawyerName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderCreateReason)">
+				and vac_order_create_reason = #{vacOrderCreateReason}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderTaskType)">
+				and vac_order_task_type = #{vacOrderTaskType}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderAccount)">
+				and vac_order_account = #{vacOrderAccount}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderSuggestion)">
+				and vac_order_suggestion = #{vacOrderSuggestion}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderIncidentProvinceId)">
+				and num_order_incident_province_id = #{numOrderIncidentProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderIncidentCityId)">
+				and num_order_incident_city_id = #{numOrderIncidentCityId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderIncidentAddress)">
+				and vac_order_incident_address = #{vacOrderIncidentAddress}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderContactProvinceId)">
+				and num_order_contact_province_id = #{numOrderContactProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderContactCityId)">
+				and num_order_contact_city_id = #{numOrderContactCityId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderContactAddress)">
+				and vac_order_contact_address = #{vacOrderContactAddress}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderReceiveProvinceId)">
+				and num_order_receive_province_id = #{numOrderReceiveProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderReceiveCityId)">
+				and num_order_receive_city_id = #{numOrderReceiveCityId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientId)">
+				and num_client_id = #{numClientId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderStatus)">
+				and num_order_status = #{numOrderStatus}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderUserId)">
+				and num_order_user_id = #{numOrderUserId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numAllotUserId)">
+				and num_allot_user_id = #{numAllotUserId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacAllotUserName)">
+				and vac_allot_user_name = #{vacAllotUserName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(dateAllotTime)">
+				and date_allot_time = #{dateAllotTime}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbOrdersResult"  flushCache="false">
+    	select <include refid="tbOrdersColumns" />
+	    from tb_orders 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_orders 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_orders 
+		<include refid="tbOrdersDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbOrdersResult">
+    	select <include refid="tbOrdersColumns" />
+	    from tb_orders 
+		<include refid="tbOrdersDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>

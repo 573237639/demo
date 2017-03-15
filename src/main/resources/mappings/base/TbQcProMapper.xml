@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbQcPro">
+	<resultMap id="TbQcProResult" type="com.fabao.ledger.modules.tb.entity.TbQcPro">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbQcProColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_qcpro_name as vacQcproName,
+	        	num_qcpro_score as numQcproScore,
+	        	num_qcpro_check_score as numQcproCheckScore,
+	        	num_qcpro_must_check_bit as numQcproMustCheckBit,
+	        	num_qcpro_bit as numQcproBit,
+	        	is_deleted as isDeleted,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	num_category_id as numCategoryId
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbQcPro" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_qc_pro (
+	        	vac_qcpro_name ,
+	        	num_qcpro_score ,
+	        	num_qcpro_check_score ,
+	        	num_qcpro_must_check_bit ,
+	        	num_qcpro_bit ,
+	        	is_deleted ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	num_category_id 
+	        ) VALUES (
+	        	#{vacQcproName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numQcproScore,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numQcproCheckScore,javaType=java.lang.Float,jdbcType=REAL} ,
+	        	#{numQcproMustCheckBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numQcproBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{numCategoryId,javaType=java.lang.Integer,jdbcType=INTEGER} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbQcPro">
+	    <![CDATA[
+	        UPDATE tb_qc_pro SET
+		        vac_qcpro_name = #{vacQcproName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_qcpro_score = #{numQcproScore,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_qcpro_check_score = #{numQcproCheckScore,javaType=java.lang.Float,jdbcType=REAL} ,
+		        num_qcpro_must_check_bit = #{numQcproMustCheckBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_qcpro_bit = #{numQcproBit,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        num_category_id = #{numCategoryId,javaType=java.lang.Integer,jdbcType=INTEGER} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_qc_pro where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbQcProResult" flushCache="false">
+			select <include refid="tbQcProColumns" />
+		    <![CDATA[
+			    from tb_qc_pro 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbQcProResult" flushCache="false">
+			select <include refid="tbQcProColumns" />
+			    from tb_qc_pro 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbQcProDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacQcproName)">
+				and vac_qcpro_name = #{vacQcproName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcproScore)">
+				and num_qcpro_score = #{numQcproScore}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcproCheckScore)">
+				and num_qcpro_check_score = #{numQcproCheckScore}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcproMustCheckBit)">
+				and num_qcpro_must_check_bit = #{numQcproMustCheckBit}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numQcproBit)">
+				and num_qcpro_bit = #{numQcproBit}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numCategoryId)">
+				and num_category_id = #{numCategoryId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbQcProResult"  flushCache="false">
+    	select <include refid="tbQcProColumns" />
+	    from tb_qc_pro 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_qc_pro 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_qc_pro 
+		<include refid="tbQcProDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbQcProResult">
+    	select <include refid="tbQcProColumns" />
+	    from tb_qc_pro 
+		<include refid="tbQcProDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>

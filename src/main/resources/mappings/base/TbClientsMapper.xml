@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbClients">
+	<resultMap id="TbClientsResult" type="com.fabao.ledger.modules.tb.entity.TbClients">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="tbClientsColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_client_name as vacClientName,
+	        	num_client_gender as numClientGender,
+	        	num_client_type as numClientType,
+	        	num_client_province_id as numClientProvinceId,
+	        	num_client_city_id as numClientCityId,
+	        	vac_client_number as vacClientNumber,
+	        	vac_client_identity_code as vacClientIdentityCode,
+	        	vac_client_passport_code as vacClientPassportCode,
+	        	vac_client_military_code as vacClientMilitaryCode,
+	        	vac_client_address as vacClientAddress,
+	        	vac_client_memo as vacClientMemo,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted,
+	        	vac_client_eep_code as vacClientEepCode,
+	        	num_client_source as numClientSource
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.tb.entity.TbClients" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        tb_clients (
+	        	vac_client_name ,
+	        	num_client_gender ,
+	        	num_client_type ,
+	        	num_client_province_id ,
+	        	num_client_city_id ,
+	        	vac_client_number ,
+	        	vac_client_identity_code ,
+	        	vac_client_passport_code ,
+	        	vac_client_military_code ,
+	        	vac_client_address ,
+	        	vac_client_memo ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	is_deleted ,
+	        	vac_client_eep_code ,
+	        	num_client_source
+	        ) VALUES (
+	        	#{vacClientName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numClientGender,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numClientType,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numClientProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numClientCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{vacClientNumber,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacClientIdentityCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacClientPassportCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacClientMilitaryCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacClientAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{vacClientMemo,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+	        	#{vacClientEepCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numClientSource,javaType=java.lang.Integer,jdbcType=INTEGER} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.tb.entity.TbClients">
+	    <![CDATA[
+	        UPDATE tb_clients SET
+		        vac_client_name = #{vacClientName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_client_gender = #{numClientGender,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_client_type = #{numClientType,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_client_province_id = #{numClientProvinceId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_client_city_id = #{numClientCityId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        vac_client_number = #{vacClientNumber,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_client_identity_code = #{vacClientIdentityCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_client_passport_code = #{vacClientPassportCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_client_military_code = #{vacClientMilitaryCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_client_address = #{vacClientAddress,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        vac_client_memo = #{vacClientMemo,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} ,
+		        vac_client_eep_code = #{vacClientEepCode,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_client_source = #{numClientSource,javaType=java.lang.Integer,jdbcType=INTEGER} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from tb_clients where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="TbClientsResult" flushCache="false">
+			select <include refid="tbClientsColumns" />
+		    <![CDATA[
+			    from tb_clients 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="TbClientsResult" flushCache="false">
+			select <include refid="tbClientsColumns" />
+			    from tb_clients 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="tbClientsDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientName)">
+				and vac_client_name like '%${vacClientName}%'
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientGender)">
+				and num_client_gender = #{numClientGender}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientType)">
+				and num_client_type = #{numClientType}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientProvinceId)">
+				and num_client_province_id = #{numClientProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientCityId)">
+				and num_client_city_id = #{numClientCityId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientNumber)">
+				and vac_client_number like '%${vacClientNumber}%'
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientIdentityCode)">
+				and vac_client_identity_code = #{vacClientIdentityCode}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientPassportCode)">
+				and vac_client_passport_code = #{vacClientPassportCode}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientMilitaryCode)">
+				and vac_client_military_code = #{vacClientMilitaryCode}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientAddress)">
+				and vac_client_address = #{vacClientAddress}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientMemo)">
+				and vac_client_memo = #{vacClientMemo}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacClientEepCode)">
+				and vac_client_eep_code = #{vacClientEepCode}
+			</if>
+			 <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numClientSource)">
+				and num_client_source = #{numClientSource}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="TbClientsResult"  flushCache="false">
+    	select <include refid="tbClientsColumns" />
+	    from tb_clients 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from tb_clients 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from tb_clients 
+		<include refid="tbClientsDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="TbClientsResult">
+    	select <include refid="tbClientsColumns" />
+	    from tb_clients 
+		<include refid="tbClientsDynamicWhere"/>
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>

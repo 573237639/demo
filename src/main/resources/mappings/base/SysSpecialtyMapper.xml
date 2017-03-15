@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.sys.entity.SysSpecialty">
+	<resultMap id="SysSpecialtyResult" type="com.fabao.ledger.modules.sys.entity.SysSpecialty">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="sysSpecialtyColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_name as vacName,
+	        	num_parent_id as numParentId,
+	        	num_current_level as numCurrentLevel,
+	        	num_leaf as numLeaf,
+	        	num_sort as numSort,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted
+	    ]]>
+	</sql>
+		<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+		<insert id="insert" parameterType="com.fabao.ledger.modules.sys.entity.SysSpecialty" 
+			useGeneratedKeys="false" keyProperty="id" 
+		 flushCache="true">
+	    <![CDATA[
+	        INSERT INTO
+	        sys_specialty (
+	        	vac_name ,
+	        	num_parent_id ,
+	        	num_current_level ,
+	        	num_leaf ,
+	        	num_sort ,
+	        	creator ,
+	        	modifier ,
+	        	gmt_created ,
+	        	gmt_modified ,
+	        	is_deleted 
+	        ) VALUES (
+	        	#{vacName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+	        	#{numParentId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numCurrentLevel,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{numLeaf,javaType=Integer,jdbcType=TINYINT} ,
+	        	#{numSort,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{creator,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+	        	#{gmtCreated,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+	        	#{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} 
+	        )
+	    ]]>
+			<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+				select LAST_INSERT_ID() as value  
+		    </selectKey>
+		</insert>
+	    
+		<update id="update" parameterType="com.fabao.ledger.modules.sys.entity.SysSpecialty">
+	    <![CDATA[
+	        UPDATE sys_specialty SET
+		        vac_name = #{vacName,javaType=java.lang.String,jdbcType=VARCHAR} ,
+		        num_parent_id = #{numParentId,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_current_level = #{numCurrentLevel,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        num_leaf = #{numLeaf,javaType=Integer,jdbcType=TINYINT} ,
+		        num_sort = #{numSort,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        modifier = #{modifier,javaType=java.lang.Integer,jdbcType=INTEGER} ,
+		        gmt_modified = #{gmtModified,javaType=java.util.Date,jdbcType=TIMESTAMP} ,
+		        is_deleted = #{isDeleted,javaType=java.lang.Boolean,jdbcType=BIT} 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+		</update>
+	   <delete id="delete" parameterType="java.lang.Long">
+	    <![CDATA[
+	        delete from sys_specialty where
+		        id = #{id} 
+	    ]]>
+	    </delete>      
+	    <select id="getById" parameterType="java.lang.Long" resultMap="SysSpecialtyResult" flushCache="false">
+			select <include refid="sysSpecialtyColumns" />
+		    <![CDATA[
+			    from sys_specialty 
+		        where 
+		        id = #{id} 
+		    ]]>
+		</select>	
+		<select id="getByIds" parameterType="list"  resultMap="SysSpecialtyResult" flushCache="false">
+			select <include refid="sysSpecialtyColumns" />
+			    from sys_specialty 
+		        where id in
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+#{item}				</foreach>					
+		</select>	
+	<sql id="sysSpecialtyDynamicWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = #{id}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacName)">
+				and vac_name = #{vacName}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numParentId)">
+				and num_parent_id = #{numParentId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numCurrentLevel)">
+				and num_current_level = #{numCurrentLevel}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLeaf)">
+				and num_leaf = #{numLeaf}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numSort)">
+				and num_sort = #{numSort}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+				and creator = #{creator}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(modifier)">
+				and modifier = #{modifier}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreated)">
+				and gmt_created = #{gmtCreated}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtModified)">
+				and gmt_modified = #{gmtModified}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+				and is_deleted = #{isDeleted}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getAll" resultMap="SysSpecialtyResult"  flushCache="false">
+    	select <include refid="sysSpecialtyColumns" />
+	    from sys_specialty 
+
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>	
+	<select id="getCount" resultType="long">
+        select count(*) from sys_specialty 
+    </select>
+    <select id="getCountByPage" resultType="long">
+        select count(*) from sys_specialty 
+		<include refid="sysSpecialtyDynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="getByPage" resultMap="SysSpecialtyResult">
+    	select <include refid="sysSpecialtyColumns" />
+	    from sys_specialty 
+		<include refid="sysSpecialtyDynamicWhere"/>  ORDER BY num_sort DESC
+<!-- 		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)"> -->
+<!-- 			ORDER BY ${sortColumns} -->
+<!-- 		</if> -->
+    </select>
+
+	
+</mapper>

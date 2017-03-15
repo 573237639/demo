@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbClients">
+
+	
+	  <select id="getClass" parameterType="int" resultMap="ClassResultMap">                                                        
+         select * from tb_clients where id=#{id}                                                                                        
+      </select>                                                                                                                      
+      <resultMap type="com.fabao.ledger.modules.tb.entity.TbClients" id="ClassResultMap">                                                                 
+         <id property="id" column="id"/>                                                                                           
+         <collection property="tbLedger" column="id"  ofType="com.fabao.ledger.modules.tb.entity.TbLedger" select="getLedger"></collection>   
+      </resultMap>                                                                                                                   
+                                                                                                                                     
+      <select id="getLedger" parameterType="int" resultType="com.fabao.ledger.modules.tb.entity.TbLedger">                                              
+         SELECT *  FROM tb_ledger WHERE num_client_id=#{id}                                                                   
+      </select> 
+		<update id="disableBat" parameterType="String">
+		    <![CDATA[
+		        UPDATE tb_clients SET
+			        is_deleted = 1
+		        WHERE 
+			        id in (${_parameter})
+		    ]]>
+		</update>
+	
+</mapper>

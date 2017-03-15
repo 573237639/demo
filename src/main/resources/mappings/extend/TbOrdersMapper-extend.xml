@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.fabao.ledger.modules.tb.entity.TbOrders">
+
+	 <select id="getByPageAndEntity" resultMap="TbOrdersAndClientResult" statementType="STATEMENT">
+    	select  <include refid="tbOrdersAndClientColumns" />
+    	  from  tb_orders o left join tb_clients c on c.id = o.num_client_id
+		<include refid="tbOrdersAndClientsWhere"/> 
+		<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(sortColumns)">
+			 order by o.${sortColumns}
+		</if>
+		
+    </select>
+    <select id="getAlertOrderList" resultMap="TbOrdersAndClientResult" statementType="STATEMENT">
+    	select  <include refid="tbOrdersAndClientColumns" />
+    		from tb_orders o where 1=1 
+	       		and o.is_deleted = 0
+		       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(creator)">
+					and (o.creator = ${creator} or o.num_order_user_id = ${creator})
+				</if>
+			    and (o.num_order_status = 0 or  o.num_allot_user_id is null)
+				order by o.date_allot_time DESC,o.gmt_created desc
+    </select>
+    <select id="getCountByPageAndEntity" resultType="int">
+    	select count(*) from tb_orders o left join tb_clients c on c.id = o.num_client_id
+    	<include refid="tbOrdersAndClientsWhere"/>
+    </select>
+ 
+    <sql id="tbOrdersAndClientsWhere">
+		<!-- com.fabaoframework.modules.utils.Ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的com.fabaoframework.modules.utils.Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看com.fabaoframework.modules.utils.Ognl类 -->
+		<where>
+		   <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(isDeleted)">
+	       		<if test="isDeleted == false">
+	       		and o.is_deleted = 0
+	       		</if>
+	       		<if test="isDeleted == true">
+	       		and o.is_deleted = 1
+	       		</if>
+			</if>
+			 <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(id)">
+				and id = ${id}
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderSerial)">
+				and o.vac_order_serial = '${vacOrderSerial}'
+			</if>	
+			
+			<if test="tbClients != null and tbClients !=''">
+			<!-- 客户姓名 -->
+				<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.vacClientName)">
+					and c.vac_client_name like '%${tbClients.vacClientName}%'
+				</if>
+				<!-- 性别 -->
+				<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.numClientGender)">
+					and c.num_client_gender = ${tbClients.numClientGender}
+				</if>
+				<!-- 证件类型 -->
+				<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.zjType) and @com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.zjCode) ">
+					and c.${tbClients.zjType} = '${tbClients.zjCode}'
+				</if>
+				<!-- 咨询人类别 -->
+				 <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.numClientType)">
+					and c.num_client_type = ${tbClients.numClientType}
+				</if>				
+			</if>
+			<!-- 手机/电话 -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderNumber)">
+				and o.vac_order_number = '${vacOrderNumber}'
+			</if>
+			<!-- 工单类型 -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderType)">
+				and o.vac_order_type = ${vacOrderType}
+			</if>
+			<!-- 任务类型 -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderTaskType)">
+				and o.vac_order_task_type = ${vacOrderTaskType}
+			</if>
+			<!-- 业务类型  -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderBusinessType)">
+				and o.vac_order_business_type in  (${vacOrderBusinessType})
+			</if>
+			<!-- 初审状态 -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderStatus)">
+				<if test="numOrderStatus!=3">
+					and o.num_order_status = ${numOrderStatus}
+				</if>
+				<if test="numOrderStatus==3">
+					and o.num_allot_user_id is null
+				</if>
+			</if>
+			<!-- 初审人 -->
+<!-- 			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.vacClientEepCode)"> -->
+<!-- 				and c.vac_client_name = #{tbClients.vacClientEepCode} -->
+<!-- 			</if> -->
+			<!-- 制单人 -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(vacOrderAgentName)">
+				and o.vac_order_agent_name = '${vacOrderAgentName}'
+			</if>
+				
+			<!-- 工单产生时间 -->
+ 			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreatedBegin)">
+		    	and o.gmt_created  <![CDATA[>=]]> '${gmtCreatedBegin}'
+		    </if>
+		    <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(gmtCreatedEnd)">
+		    	and o.gmt_created <![CDATA[<=]]> '${gmtCreatedEnd}'
+		    </if>
+			<!-- 复审结果 -->
+<!-- 			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(tbClients.vacClientEepCode)"> -->
+<!-- 				and c.vac_client_name = #{tbClients.vacClientEepCode} -->
+<!-- 			</if> -->
+			<!-- 接收区域 -->
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderReceiveProvinceId)">
+				and o.num_order_receive_province_id = ${numOrderReceiveProvinceId}
+			</if>
+	       <if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numLedgerCityId)">
+				and o.num_order_incident_city_id = ${numOrderReceiveCityId}
+			</if>
+			<if test="numOrderStatus!=3">
+				<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numAllotUserId) ">
+					and o.num_allot_user_id = ${numAllotUserId}
+				</if>
+			</if>
+			<if test="@com.fabaoframework.modules.utils.Ognl@isNotEmpty(numOrderUserId)">
+				and o.num_order_user_id = ${numOrderUserId}
+			</if>
+		</where>
+	</sql>
+	<sql id="tbOrdersAndClientColumns">
+	    <![CDATA[
+	        	o.id as id,
+	        	o.vac_order_serial as vacOrderSerial,
+	        	o.vac_order_number as vacOrderNumber,
+	        	o.vac_order_agent_code as vacOrderAgentCode,
+	        	o.vac_order_agent_name as vacOrderAgentName,
+	        	o.vac_order_business_type as vacOrderBusinessType,
+	        	o.vac_order_other_contacts as vacOrderOtherContacts,
+	        	o.vac_order_title as vacOrderTitle,
+	        	o.vac_order_type as vacOrderType,
+	        	o.date_order_term as dateOrderTerm,
+	        	o.vac_order_lawyer_name as vacOrderLawyerName,
+	        	o.vac_order_create_reason as vacOrderCreateReason,
+	        	o.vac_order_task_type as vacOrderTaskType,
+	        	o.vac_order_account as vacOrderAccount,
+	        	o.vac_order_suggestion as vacOrderSuggestion,
+	        	o.num_order_incident_province_id as numOrderIncidentProvinceId,
+	        	o.num_order_incident_city_id as numOrderIncidentCityId,
+	        	o.vac_order_incident_address as vacOrderIncidentAddress,
+	        	o.num_order_contact_province_id as numOrderContactProvinceId,
+	        	o.num_order_contact_city_id as numOrderContactCityId,
+	        	o.vac_order_contact_address as vacOrderContactAddress,
+	        	o.num_order_receive_province_id as numOrderReceiveProvinceId,
+	        	o.num_order_receive_city_id as numOrderReceiveCityId,
+	        	o.num_client_id as numClientId,
+	        	o.creator as creator,
+	        	o.modifier as modifier,
+	        	o.gmt_created as gmtCreated,
+	        	o.gmt_modified as gmtModified,
+	        	o.is_deleted as isDeleted,
+	        	o.num_order_status as numOrderStatus,
+	        	o.num_order_user_id as numOrderUserId,
+	        	o.num_allot_user_id as numAllotUserId,
+	        	o.vac_allot_user_name as vacAllotUserName,
+	        	o.date_allot_time as dateAllotTime
+	    ]]>
+	</sql>
+	<sql id="tbClientsDiyColumns">
+	    <![CDATA[
+	        	id as id,
+	        	vac_client_name as vacClientName,
+	        	num_client_gender as numClientGender,
+	        	num_client_type as numClientType,
+	        	num_client_province_id as numClientProvinceId,
+	        	num_client_city_id as numClientCityId,
+	        	vac_client_eep_code as vacClientEepCode,
+	        	vac_client_identity_code as vacClientIdentityCode,
+	        	vac_client_passport_code as vacClientPassportCode,
+	        	vac_client_military_code as vacClientMilitaryCode,
+	        	vac_client_address as vacClientAddress,
+	        	vac_client_memo as vacClientMemo,
+	        	creator as creator,
+	        	modifier as modifier,
+	        	gmt_created as gmtCreated,
+	        	gmt_modified as gmtModified,
+	        	is_deleted as isDeleted
+	    ]]>
+	</sql>
+	 <resultMap type="com.fabao.ledger.modules.tb.entity.TbOrders"  id="TbOrdersAndClientResult">                                                                 
+         <id property="id" column="id"/>     
+         <association property="tbClients" column="numClientId" select="getTbClients"/>                                                                                     
+      </resultMap> 
+     
+     <resultMap id="serialResult"  type="com.fabao.ledger.modules.tb.entity.TbOrders"  >
+  		<result property="vacOrderSerial" column="vac_order_serial" />
+  		<result property="count" column="count" />
+	</resultMap>
+     
+	  <select id="getTbClients" parameterType="int" resultType="com.fabao.ledger.modules.tb.entity.TbClients">                                                        
+         SELECT <include refid="tbClientsDiyColumns" />  FROM tb_clients  WHERE id=#{id}                                                                                        
+      </select> 
+		<update id="disableBat" parameterType="String">
+		    <![CDATA[
+		        UPDATE tb_orders SET
+			        is_deleted = 1
+		        WHERE 
+			        id in (${_parameter})
+		    ]]>
+		</update>
+		<select id="assignedUser" parameterType="String" resultType="long">
+		    <![CDATA[
+		     update tb_orders o
+				set o.num_order_user_id = ${uid},
+					o.num_allot_user_id = ${aid},
+					o.vac_allot_user_name = (select realname from sys_user u where u.id = ${aid}),
+					o.date_allot_time = '${allotTime}',
+					o.num_order_status = 0
+			where 
+					o.id in (${oid})
+
+		    ]]>
+		</select>
+        <select id="getMapGroupBySerial" resultMap="serialResult">
+ 			select o.vac_order_serial as vacOrderSerial,COUNT(o.id) as count from tb_orders o GROUP BY o.vac_order_serial 
+    </select>
+   
+</mapper>
